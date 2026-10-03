@@ -1,0 +1,13 @@
+{
+  "name": "Sprocket's Run",
+  "short_name": "Sprocket",
+  "description": "An original browser platformer: collect gears and light three radio beacons.",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "orientation": "landscape",
+  "background_color": "#0d0f22",
+  "theme_color": "#0d0f22",
+  "icons": [
+    { "src": "assets/favicon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }
+  ]
+}

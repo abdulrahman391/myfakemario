@@ -1,0 +1,181 @@
+/* Sprocket's Run — site styles
+ * Layout: a single column page; the game "cabinet" sits at the top,
+ * information bands follow. Dark arcade palette pulled from the game. */
+/* Fonts are bundled so the game works offline (SIL Open Font License, see assets/fonts) */
+@font-face { font-family: "Press Start 2P"; src: url("../assets/fonts/press-start-2p.woff2") format("woff2"); font-display: swap; }
+@font-face { font-family: "Rubik"; font-weight: 400; src: url("../assets/fonts/rubik-400.woff2") format("woff2"); font-display: swap; }
+@font-face { font-family: "Rubik"; font-weight: 500 600; src: url("../assets/fonts/rubik-500.woff2") format("woff2"); font-display: swap; }
+@font-face { font-family: "Rubik"; font-weight: 700; src: url("../assets/fonts/rubik-700.woff2") format("woff2"); font-display: swap; }
+
+:root {
+  --bg: #0d0f22;
+  --panel: #171a36;
+  --panel-2: #20244a;
+  --line: #2d3263;
+  --text: #e8ebff;
+  --muted: #9aa0cf;
+  --orange: #ff8a3d;
+  --cyan: #41f0ff;
+  --yellow: #ffe066;
+  --pixel: "Press Start 2P", "Courier New", monospace;
+  --body: "Rubik", system-ui, -apple-system, "Segoe UI", sans-serif;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font: 16px/1.6 var(--body);
+  -webkit-font-smoothing: antialiased;
+}
+a { color: var(--cyan); }
+:focus-visible { outline: 3px solid var(--yellow); outline-offset: 3px; }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+.wrap { max-width: 1040px; margin-inline: auto; padding-inline: 20px; padding-block: 56px; }
+
+/* ---------- header ---------- */
+.site-header {
+  position: sticky; top: 0; z-index: 10;
+  display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap;
+  padding: 12px 20px;
+  background: rgba(13, 15, 34, 0.92);
+  backdrop-filter: blur(8px);
+  border-bottom: 2px solid var(--line);
+}
+.logo { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--text); }
+.logo img { image-rendering: pixelated; }
+.logo span { font-family: var(--pixel); font-size: 13px; letter-spacing: 0.02em; }
+.site-header nav { display: flex; gap: 6px; flex-wrap: wrap; }
+.site-header nav a {
+  color: var(--muted); text-decoration: none; font-weight: 500; font-size: 15px;
+  padding: 6px 10px; border-radius: 6px;
+}
+.site-header nav a:hover { color: var(--text); background: var(--panel); }
+
+/* ---------- play ---------- */
+.play {
+  max-width: 1040px; margin-inline: auto; padding: 36px 20px 56px;
+  display: grid; gap: 28px;
+}
+.kicker { font-family: var(--pixel); font-size: 10px; color: var(--orange); letter-spacing: 0.06em; margin: 0 0 12px; }
+h1, h2, h3 { text-wrap: balance; }
+h1 { font-family: var(--pixel); font-size: clamp(20px, 3.4vw, 32px); line-height: 1.35; margin: 0 0 14px; }
+.lede { color: var(--muted); max-width: 62ch; margin: 0; font-size: 17px; }
+
+.cabinet {
+  background: linear-gradient(180deg, var(--panel-2), var(--panel));
+  border: 2px solid var(--line);
+  border-radius: 18px;
+  padding: 16px;
+  box-shadow: 0 0 0 6px #0a0b1a, 0 24px 60px rgba(0, 0, 0, 0.45);
+}
+.screen {
+  position: relative;
+  background: #000;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 4px solid #0a0b1a;
+}
+.screen canvas {
+  display: block;
+  width: 100%;
+  aspect-ratio: 5 / 3;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+  touch-action: none;
+  cursor: pointer;
+}
+.screen:fullscreen { display: grid; place-items: center; border: 0; border-radius: 0; }
+.screen:fullscreen canvas { width: min(100vw, 166.67vh); height: auto; }
+/* faint scanlines */
+.screen::after {
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  background: repeating-linear-gradient(0deg, rgba(0, 0, 0, 0.12) 0 1px, transparent 1px 3px);
+}
+
+.toolbar { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 14px; }
+.tool {
+  font: 600 14px var(--body);
+  color: var(--text);
+  background: var(--bg);
+  border: 2px solid var(--line);
+  border-radius: 8px;
+  padding: 8px 14px;
+  cursor: pointer;
+}
+.tool:hover { border-color: var(--cyan); }
+#btn-start { background: var(--orange); border-color: var(--orange); color: #1a0d03; }
+
+/* touch controls (only shown on touch screens) */
+.touch { display: none; justify-content: space-between; gap: 16px; margin-top: 16px; user-select: none; -webkit-user-select: none; }
+.touch button {
+  font: 14px var(--pixel); color: var(--text);
+  background: var(--bg); border: 2px solid var(--line); border-radius: 14px;
+  width: 72px; height: 64px; touch-action: none;
+}
+.touch button.on { background: var(--panel-2); border-color: var(--cyan); }
+.touch .dpad, .touch .actions { display: flex; gap: 12px; }
+.touch .jump { background: var(--orange); border-color: var(--orange); color: #1a0d03; font-size: 11px; width: 84px; height: 84px; border-radius: 50%; }
+.touch .run { font-size: 11px; width: 64px; height: 64px; border-radius: 50%; align-self: flex-end; }
+@media (pointer: coarse) { .touch { display: flex; } }
+
+/* ---------- bands ---------- */
+.band { background: var(--panel); border-block: 2px solid var(--line); }
+h2 { font-family: var(--pixel); font-size: clamp(16px, 2.4vw, 22px); margin: 0 0 24px; color: var(--yellow); }
+h3 { font-family: var(--pixel); font-size: 14px; margin: 44px 0 18px; color: var(--cyan); }
+
+.how-grid { display: grid; gap: 32px; }
+@media (min-width: 820px) { .how-grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); } }
+table { border-collapse: collapse; width: 100%; }
+th, td { text-align: left; padding: 10px 0; border-bottom: 1px solid var(--line); vertical-align: top; }
+th { color: var(--muted); font-weight: 500; width: 36%; padding-right: 12px; }
+kbd {
+  display: inline-block; min-width: 1.8em; text-align: center;
+  font: 600 13px var(--body);
+  background: var(--bg); border: 2px solid var(--line); border-bottom-width: 4px; border-radius: 6px;
+  padding: 1px 6px;
+}
+.note { color: var(--muted); font-size: 14px; margin-top: 14px; }
+.tips { margin: 0; padding-left: 1.3em; display: grid; gap: 12px; }
+.tips li::marker { color: var(--orange); font-weight: 700; }
+.tips b { color: var(--text); }
+
+/* ---------- world ---------- */
+.cast { display: grid; gap: 14px; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); }
+.card {
+  margin: 0; background: var(--panel); border: 2px solid var(--line); border-radius: 12px;
+  padding: 18px; display: grid; gap: 14px; align-content: start;
+}
+.card canvas { image-rendering: pixelated; height: 60px; width: auto; justify-self: start; }
+.card b { display: block; font-size: 16px; margin-bottom: 2px; }
+.card span { color: var(--muted); font-size: 14px; line-height: 1.5; }
+
+.levels { display: grid; gap: 14px; }
+@media (min-width: 820px) { .levels { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+.level {
+  display: flex; gap: 14px; align-items: flex-start;
+  border-radius: 12px; padding: 18px; border: 2px solid var(--line);
+}
+.level b { font-size: 16px; }
+.level p { margin: 4px 0 0; font-size: 14px; color: var(--muted); }
+.level .num {
+  font-family: var(--pixel); font-size: 14px; flex: none;
+  width: 40px; height: 40px; display: grid; place-items: center; border-radius: 8px; color: #10122a;
+}
+.level.meadow { background: linear-gradient(160deg, rgba(95, 184, 255, 0.16), var(--panel) 70%); }
+.level.meadow .num { background: #5cd65c; }
+.level.cave { background: linear-gradient(160deg, rgba(138, 128, 189, 0.22), var(--panel) 70%); }
+.level.cave .num { background: #a9a0e0; }
+.level.dusk { background: linear-gradient(160deg, rgba(255, 138, 99, 0.2), var(--panel) 70%); }
+.level.dusk .num { background: #ff8a63; }
+
+.about p { max-width: 68ch; color: var(--muted); }
+code { font-size: 0.92em; background: var(--bg); border: 1px solid var(--line); border-radius: 4px; padding: 1px 5px; color: var(--text); }
+
+.site-footer { text-align: center; color: var(--muted); font-size: 13px; padding: 28px 20px 40px; }
+
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
