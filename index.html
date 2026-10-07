@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Sprocket's Run</title>
-  <meta name="description" content="Sprocket's Run is a free side-scrolling platformer that runs in your browser. Help a little tin robot collect gears and light three radio beacons.">
+  <meta name="description" content="Sprocket's Run is a free side-scrolling platformer that runs in your browser. Cross 5 worlds and 50 levels, grab power-ups and light every radio beacon.">
   <meta name="theme-color" content="#0d0f22">
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
   <link rel="manifest" href="manifest.webmanifest">
@@ -27,9 +27,9 @@
   <main>
     <section id="play" class="play">
       <div class="intro">
-        <p class="kicker">A browser platformer · 3 levels</p>
+        <p class="kicker">A browser platformer · 5 worlds · 50 levels</p>
         <h1>Run, jump and light the beacons.</h1>
-        <p class="lede">Sprocket is a small tin robot who lost his way home. Stomp beetles, open gear crates, grab batteries and reach the radio beacon at the end of each level before the clock runs out.</p>
+        <p class="lede">Sprocket is a small tin robot who lost his way home. Stomp beetles, dodge spikers and bats, open crates for six power-ups and reach the radio beacon at the end of every level before the clock runs out.</p>
       </div>
 
       <div class="cabinet">
@@ -49,6 +49,7 @@
             <button type="button" data-btn="right">▶</button>
           </div>
           <div class="actions">
+            <button type="button" data-btn="shoot" class="fire">FIRE</button>
             <button type="button" data-btn="run" class="run">RUN</button>
             <button type="button" data-btn="jump" class="jump">JUMP</button>
           </div>
@@ -66,10 +67,11 @@
               <tbody>
                 <tr><th scope="row">Move</th><td><kbd>←</kbd> <kbd>→</kbd> or <kbd>A</kbd> <kbd>D</kbd></td></tr>
                 <tr><th scope="row">Jump</th><td><kbd>Space</kbd>, <kbd>↑</kbd>, <kbd>W</kbd> or <kbd>Z</kbd></td></tr>
+                <tr><th scope="row">Fire (needs Spark)</th><td><kbd>C</kbd> or <kbd>F</kbd></td></tr>
                 <tr><th scope="row">Run</th><td>Hold <kbd>Shift</kbd> or <kbd>X</kbd></td></tr>
                 <tr><th scope="row">Start / pause</th><td><kbd>Enter</kbd> or <kbd>P</kbd></td></tr>
                 <tr><th scope="row">Sound</th><td><kbd>M</kbd></td></tr>
-                <tr><th scope="row">Gamepad</th><td>D-pad to move, A to jump, X or B to run</td></tr>
+                <tr><th scope="row">Gamepad</th><td>D-pad to move, A to jump, X or B to run, Y to fire</td></tr>
               </tbody>
             </table>
             <p class="note">On a phone or tablet, use the on-screen buttons under the game.</p>
@@ -81,33 +83,44 @@
             <li><b>A battery charges Sprocket.</b> While charged he can smash bricks and survive one hit.</li>
             <li><b>Touch a lamp post</b> to save your progress in the middle of a level.</li>
             <li><b>Every 50 gears</b> earns an extra life. Leftover time turns into points.</li>
+            <li><b>Crates with a picture</b> hold power-ups: Spark, Boots, Star, Magnet and Clock. See the list below.</li>
+            <li><b>Finish a world</b> to unlock the next one and earn a life. On the title screen use left and right to pick a world you have unlocked.</li>
           </ol>
         </div>
       </div>
     </section>
 
     <section id="world" class="wrap">
-      <h2>The world</h2>
+      <h2>Power-ups and enemies</h2>
       <div class="cast">
         <figure class="card"><canvas data-sprite="player" width="48" height="60"></canvas><figcaption><b>Sprocket</b><span>A tin robot with one glowing visor and a lot of bounce.</span></figcaption></figure>
         <figure class="card"><canvas data-sprite="beetle" width="64" height="40"></canvas><figcaption><b>Shell beetle</b><span>Patrols back and forth and turns around at edges. Safe to stomp.</span></figcaption></figure>
         <figure class="card"><canvas data-sprite="boing" width="56" height="48"></canvas><figcaption><b>Boing</b><span>Hops on a spring. Time your jump to land on top of it.</span></figcaption></figure>
-        <figure class="card"><canvas data-sprite="battery" width="40" height="56"></canvas><figcaption><b>Battery</b><span>Charges Sprocket so he can break bricks and take an extra hit.</span></figcaption></figure>
+        <figure class="card"><canvas data-fx="bat" width="56" height="40"></canvas><figcaption><b>Bat</b><span>Flies in a wave from World 2 on. Stomp it or shoot it.</span></figcaption></figure>
+        <figure class="card"><canvas data-fx="spiker" width="64" height="48"></canvas><figcaption><b>Spiker</b><span>Never jump on it. Use a Spark shot or a Star.</span></figcaption></figure>
         <figure class="card"><canvas data-sprite="gear" width="40" height="40"></canvas><figcaption><b>Gear</b><span>Worth 100 points. Fifty of them add a life.</span></figcaption></figure>
+        <figure class="card"><canvas data-sprite="battery" width="40" height="56"></canvas><figcaption><b>Battery</b><span>Charges Sprocket so he can break bricks and take an extra hit.</span></figcaption></figure>
+        <figure class="card"><canvas data-fx="spark" width="48" height="48"></canvas><figcaption><b>Spark</b><span>Press C to fire bolts. They stop enemies and break bricks. A hit takes it away.</span></figcaption></figure>
+        <figure class="card"><canvas data-fx="boots" width="48" height="48"></canvas><figcaption><b>Spring boots</b><span>Jump higher and jump again in mid-air.</span></figcaption></figure>
+        <figure class="card"><canvas data-fx="star" width="48" height="48"></canvas><figcaption><b>Overdrive star</b><span>10 seconds of speed. Nothing can hurt you and enemies fall on touch.</span></figcaption></figure>
+        <figure class="card"><canvas data-fx="magnet" width="48" height="48"></canvas><figcaption><b>Gear magnet</b><span>Pulls in nearby gears for 20 seconds.</span></figcaption></figure>
+        <figure class="card"><canvas data-fx="clock" width="48" height="48"></canvas><figcaption><b>Clock</b><span>Adds 60 seconds to the timer.</span></figcaption></figure>
       </div>
 
-      <h3>Levels</h3>
+      <h3>Five worlds, ten levels each</h3>
       <div class="levels">
         <article class="level meadow"><span class="num">1</span><div><b>Meadow Works</b><p>Green hills and gentle gaps. A good place to learn the jump.</p></div></article>
-        <article class="level cave"><span class="num">2</span><div><b>Gearbox Caverns</b><p>A low ceiling, spike pits and moving platforms over the dark.</p></div></article>
-        <article class="level dusk"><span class="num">3</span><div><b>Sunset Rooftops</b><p>Leap between buildings as the sun goes down. Running jumps required.</p></div></article>
+        <article class="level cave"><span class="num">2</span><div><b>Gearbox Caverns</b><p>Low ceilings, spike pits and bats in the dark.</p></div></article>
+        <article class="level dusk"><span class="num">3</span><div><b>Sunset Rooftops</b><p>Leap between buildings as the sun goes down. Spikers appear.</p></div></article>
+        <article class="level snow"><span class="num">4</span><div><b>Frostbyte Peaks</b><p>Slippery ice. Brake early and jump late.</p></div></article>
+        <article class="level core"><span class="num">5</span><div><b>Core Reactor</b><p>The signal comes from here. Everything is faster and sharper.</p></div></article>
       </div>
     </section>
 
     <section id="about" class="band">
       <div class="wrap about">
         <h2>About this game</h2>
-        <p>Sprocket's Run is an original game inspired by classic side-scrolling platformers. Every character, level, sprite, sound and tune was made for this project. It is plain HTML, CSS and JavaScript, so it runs offline straight from the folder and needs no install or build step.</p>
+        <p>Sprocket's Run is an original game inspired by classic side-scrolling platformers. Every character, level, sprite, sound and tune was made for this project. The 50 levels are built from hand-designed pieces and a fixed seed, so each one is always the same. It is plain HTML, CSS and JavaScript, so it runs offline straight from the folder and needs no install or build step.</p>
         <p>Your best score is saved in this browser. Want to make your own levels? Open <code>js/levels.js</code>: the README explains the tile legend.</p>
       </div>
     </section>
@@ -119,6 +132,7 @@
 
   <script src="js/sprites.js"></script>
   <script src="js/levels.js"></script>
+  <script src="js/worlds.js"></script>
   <script src="js/audio.js"></script>
   <script src="js/input.js"></script>
   <script src="js/game.js"></script>

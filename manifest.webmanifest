@@ -1,7 +1,7 @@
 {
   "name": "Sprocket's Run",
   "short_name": "Sprocket",
-  "description": "An original browser platformer: collect gears and light three radio beacons.",
+  "description": "An original browser platformer: 5 worlds, 50 levels and six power-ups.",
   "start_url": "./index.html",
   "display": "standalone",
   "orientation": "landscape",
